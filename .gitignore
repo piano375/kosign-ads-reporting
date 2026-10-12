@@ -1,0 +1,30 @@
+node_modules/
+.next/
+out/
+coverage/
+playwright-report/
+test-results/
+.env*
+!.env.example
+Vault Credentials/
+*.har
+*.trace
+*.token
+*.cache
+.DS_Store
+__pycache__/
+*.pyc
+
+# Local reporting exports, one-off analyses, and operational scripts are not part of the deployable dashboard.
+*.png
+*.xlsx
+*.csv
+*.json
+*.xml
+*.html
+*.txt
+*.py
+campaign14_copy_signal_audit/
+kosign_prelim_24h_2026-09-08_run2/
+external-skills/
+plans/

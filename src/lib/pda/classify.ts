@@ -1,0 +1,153 @@
+export type PdaClassification = {
+  persona: string;
+  desire: string;
+  awareness: string;
+  mapped: boolean;
+};
+
+export type PdaAd = PdaClassification & {
+  id: string;
+  name: string;
+  spend: number;
+  leads: number | null;
+  qualifiedLeads: number | null;
+  acceptances: number | null;
+};
+
+const UNMAPPED: PdaClassification = { persona: "Unmapped", desire: "Unmapped", awareness: "Unmapped", mapped: false };
+const DIY_RECOVER_PROBLEM_UNAWARE: PdaClassification = { persona: "DIY Artist / Songwriter", desire: "Recover Missed Royalties", awareness: "Problem Unaware", mapped: true };
+const DIY_RECOVER_PROBLEM_AWARE: PdaClassification = { persona: "DIY Artist / Songwriter", desire: "Recover Missed Royalties", awareness: "Problem Aware", mapped: true };
+const DIY_UNLOCK_UNAWARE: PdaClassification = { persona: "DIY Artist / Songwriter", desire: "Unlock Industry Secrets", awareness: "Unaware", mapped: true };
+const DIY_PLATFORM_PROBLEM_UNAWARE: PdaClassification = { persona: "DIY Artist / Songwriter", desire: "Collect Platform Royalties", awareness: "Problem Unaware", mapped: true };
+const DIY_CATALOG_SOLUTION_AWARE: PdaClassification = { persona: "DIY Artist / Songwriter", desire: "Own & Protect Catalog", awareness: "Solution Aware", mapped: true };
+const MANAGER_ROSTER_PROBLEM_UNAWARE: PdaClassification = { persona: "Artist Manager", desire: "Grow Artist Roster / Revenue", awareness: "Problem Unaware", mapped: true };
+const MANAGER_INFRASTRUCTURE_SOLUTION_AWARE: PdaClassification = { persona: "Artist Manager", desire: "Access Enterprise Infrastructure", awareness: "Solution Aware", mapped: true };
+const MANAGER_CATALOG_SOLUTION_AWARE: PdaClassification = { persona: "Artist Manager", desire: "Own & Protect Catalog", awareness: "Solution Aware", mapped: true };
+
+// Explicit user-approved mappings. IDs are immutable Meta ad IDs; never infer a PDA
+// assignment for an unfamiliar creative from its name.
+const APPROVED_PDA_BY_AD_ID: Record<string, PdaClassification> = {
+  // Original PDA source-matrix mappings.
+  "120240047047060621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120240047047070621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120240047047110621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120241507273270621": MANAGER_ROSTER_PROBLEM_UNAWARE,
+  "120241507532610621": MANAGER_ROSTER_PROBLEM_UNAWARE,
+  "120249781998660621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120249781998690621": MANAGER_ROSTER_PROBLEM_UNAWARE,
+  "120249781998710621": MANAGER_ROSTER_PROBLEM_UNAWARE,
+  "120249781998730621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120249781998750621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120249895895270621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120249895895280621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120249895895290621": MANAGER_ROSTER_PROBLEM_UNAWARE,
+  "120249895895300621": MANAGER_ROSTER_PROBLEM_UNAWARE,
+  "120249895895340621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120249994387180621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120249994387830621": MANAGER_ROSTER_PROBLEM_UNAWARE,
+  "120249994388570621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120249994391970621": MANAGER_ROSTER_PROBLEM_UNAWARE,
+  "120249994392850621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250108492650621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250108492760621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250108492860621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250108492880621": MANAGER_ROSTER_PROBLEM_UNAWARE,
+  "120250108492890621": MANAGER_ROSTER_PROBLEM_UNAWARE,
+  "120250124088880621": MANAGER_ROSTER_PROBLEM_UNAWARE,
+
+  // User approved all review-queue suggestions on 2026-10-12.
+  "120240542170700621": DIY_RECOVER_PROBLEM_AWARE,
+  "120241247639360621": DIY_UNLOCK_UNAWARE,
+  "120243815209610621": MANAGER_INFRASTRUCTURE_SOLUTION_AWARE,
+  "120248503038320621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120248503040770621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120249136036120621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120249136071200621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120249690016760621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120249690762550621": DIY_CATALOG_SOLUTION_AWARE,
+  "120249781998670621": DIY_UNLOCK_UNAWARE,
+  "120249781998740621": MANAGER_INFRASTRUCTURE_SOLUTION_AWARE,
+  "120249782177230621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120249782177580621": DIY_RECOVER_PROBLEM_AWARE,
+  "120249895895220621": DIY_RECOVER_PROBLEM_AWARE,
+  "120249895895250621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120249895895260621": MANAGER_INFRASTRUCTURE_SOLUTION_AWARE,
+  "120249895895320621": DIY_UNLOCK_UNAWARE,
+  "120249927646630621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120249927647270621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120249994385230621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120249994389940621": DIY_UNLOCK_UNAWARE,
+  "120249994392540621": DIY_RECOVER_PROBLEM_AWARE,
+  "120249994393490621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250108492790621": DIY_UNLOCK_UNAWARE,
+  "120250108493030621": DIY_RECOVER_PROBLEM_AWARE,
+  "120250113451400621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250120932930621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250120932970621": DIY_CATALOG_SOLUTION_AWARE,
+  "120250120933180621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250120933430621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250120934150621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250120937160621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250120938420621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250120938850621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250120939670621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250120940900621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250120945470621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250120948510621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250120949980621": DIY_PLATFORM_PROBLEM_UNAWARE,
+  "120250120950680621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250120958410621": MANAGER_CATALOG_SOLUTION_AWARE,
+  "120250120960430621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250120962430621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250120962790621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250120963190621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250120963310621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250124088940621": MANAGER_INFRASTRUCTURE_SOLUTION_AWARE,
+  "120250124089230621": MANAGER_INFRASTRUCTURE_SOLUTION_AWARE,
+  "120250124091520621": MANAGER_INFRASTRUCTURE_SOLUTION_AWARE,
+  "120250124092310621": MANAGER_INFRASTRUCTURE_SOLUTION_AWARE,
+  "120250124092780621": MANAGER_INFRASTRUCTURE_SOLUTION_AWARE,
+  "120250247599790621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250247600430621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250247600540621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250247600740621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250247600830621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250247601100621": DIY_CATALOG_SOLUTION_AWARE,
+  "120250247602100621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250247619050621": DIY_PLATFORM_PROBLEM_UNAWARE,
+  "120250321992820621": DIY_RECOVER_PROBLEM_UNAWARE,
+  "120250322004150621": DIY_RECOVER_PROBLEM_UNAWARE,
+};
+
+export function classifyPdaAd({ id }: Pick<PdaAd, "id" | "name">): PdaClassification {
+  return APPROVED_PDA_BY_AD_ID[id] ?? UNMAPPED;
+}
+
+export type PdaSummary = PdaClassification & {
+  spend: number;
+  leads: number | null;
+  qualifiedLeads: number | null;
+  acceptances: number | null;
+  costPerAcceptance: number | null;
+  ads: number;
+};
+
+function sumNullable(rows: PdaAd[], key: "leads" | "qualifiedLeads" | "acceptances") {
+  return rows.some((row) => row[key] === null) ? null : rows.reduce((sum, row) => sum + (row[key] ?? 0), 0);
+}
+
+export function summarizePdaAds(ads: PdaAd[]): PdaSummary[] {
+  const groups = new Map<string, PdaAd[]>();
+  for (const ad of ads.filter((row) => row.mapped)) {
+    const key = `${ad.persona}\u0000${ad.desire}\u0000${ad.awareness}`;
+    groups.set(key, [...(groups.get(key) ?? []), ad]);
+  }
+  return Array.from(groups.values()).map((rows) => {
+    const [first] = rows;
+    const spend = rows.reduce((sum, row) => sum + row.spend, 0);
+    const leads = sumNullable(rows, "leads");
+    const qualifiedLeads = sumNullable(rows, "qualifiedLeads");
+    const acceptances = sumNullable(rows, "acceptances");
+    return { persona: first.persona, desire: first.desire, awareness: first.awareness, mapped: true, spend, leads, qualifiedLeads, acceptances, costPerAcceptance: acceptances && acceptances > 0 ? spend / acceptances : null, ads: rows.length };
+  }).sort((a, b) => b.spend - a.spend);
+}
