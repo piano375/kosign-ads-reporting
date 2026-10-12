@@ -23,6 +23,7 @@ __pycache__/
 *.json
 !package.json
 !package-lock.json
+!tsconfig.json
 *.xml
 *.html
 *.txt
