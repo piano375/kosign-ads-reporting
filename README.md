@@ -17,8 +17,10 @@ Set these values in Netlify **before** the first production deploy. Do not commi
 | `META_GRAPH_API_VERSION` | Yes | `v23.0` |
 | `META_ACCOUNT_TIMEZONE` | Yes | `America/Los_Angeles` |
 | `META_CACHE_TTL_SECONDS` | Optional | `1800` |
+| `DASHBOARD_AUTH_USERNAME` | Yes | Username for the HTTP Basic Auth prompt |
+| `DASHBOARD_AUTH_PASSWORD` | Yes | Strong dashboard password; server-side only |
 
-`META_SYSTEM_TOKEN_FILE` is only for local development and is not usable on Netlify. The production app preferentially reads `META_SYSTEM_TOKEN` and never sends it to the browser.
+`META_SYSTEM_TOKEN_FILE` is only for local development and is not usable on Netlify. The production app preferentially reads `META_SYSTEM_TOKEN` and never sends it to the browser. `DASHBOARD_AUTH_*` enables HTTP Basic Auth for every dashboard and API route; deploys fail closed with HTTP 503 until both are configured.
 
 ### Required GitHub / Netlify configuration
 
