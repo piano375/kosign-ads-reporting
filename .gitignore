@@ -28,3 +28,6 @@ campaign14_copy_signal_audit/
 kosign_prelim_24h_2026-09-08_run2/
 external-skills/
 plans/
+
+# Local Netlify folder
+.netlify
